@@ -340,22 +340,22 @@ int main(int argc, char* argv[]) {
 			cout << test.KK() << endl;
 			break;
 		case 1:
-			cout << test.RR(100) << endl;
+			cout << test.RR(25000) << endl;
 			break;
 		case 2:
-			cout << test.HC(100) << endl;
+			cout << test.HC(25000) << endl;
 			break;
 		case 3:
-			cout << test.SA(100) << endl;
+			cout << test.SA(25000) << endl;
 			break;
 		case 11:
-			cout << test.P_RR(100) << endl;
+			cout << test.P_RR(25000) << endl;
 			break;
 		case 12:
-			cout << test.P_HC(100) << endl;
+			cout << test.P_HC(25000) << endl;
 			break;
 		case 13:
-			cout << exp(-(542 - 400)/T(iter)) << 
+			cout << exp(-(542 - 400)/test.T(15)) << endl;
 			cout << test.P_SA(100) << endl;
 			break;
 	}
