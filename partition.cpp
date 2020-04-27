@@ -4,6 +4,8 @@
 #include <vector>
 #include <set>
 #include <algorithm>
+#include <random>
+#include <chrono>
 
 #define MAXLINE 256
 
@@ -13,12 +15,14 @@ struct Numpartset {
 	vector<int> nums;
 	// vector<int> prepart;
 	
+
+
 	Numpartset(char* filename) {
 		ifstream infile(filename, ios::in);
 		char buff[MAXLINE];
 
 		infile.getline(buff, MAXLINE);
-		while (!infile.eof()) {
+		for (int _ = 0; _ < 100; _++) {
 			nums.push_back(stoi(buff));
 			infile.getline(buff, MAXLINE);
 		}
@@ -43,7 +47,9 @@ struct Numpartset {
 	}
 
 	int RR() {
-		
+		unsigned seed = chrono::system_clock::now().time_since_epoch().count();
+    	mt19937 generator(seed);
+    	uniform_real_distribution<float> unif(0,1);
 	}
 };
 
