@@ -8,7 +8,7 @@
 #include <chrono>
 #include <math.h>
 
-#define MAXLINE 256
+#define MAXLINE 1024
 
 using namespace std;
 
