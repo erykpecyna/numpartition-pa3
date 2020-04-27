@@ -26,6 +26,7 @@ struct Numpartset {
 		infile.getline(buff, MAXLINE);
 		// for (int _ = 0; _ < 100; _++) {
 		while(!infile.eof()) {
+			printf("%s\n", buff);
 			nums.push_back(stoi(buff));
 			infile.getline(buff, MAXLINE);
 		}
@@ -33,6 +34,8 @@ struct Numpartset {
 		sort(nums.begin(), nums.end());
 
 		length = nums.size();
+
+		best = INT32_MAX;
 	}
 
 	bool combine() {
@@ -47,8 +50,8 @@ struct Numpartset {
 
 		int res = KK_2();
 
-		if (best > res) {
-			best = res;
+		if (best > abs(res)) {
+			best = abs(res);
 			return true;
 		}
 		return false;
@@ -96,8 +99,8 @@ struct Numpartset {
 			res += prepart[i] * nums[i];
 		}
 		
-		if (best > res) {
-			best = res;
+		if (best > abs(res)) {
+			best = abs(res);
 			return true;
 		}
 		return false;
