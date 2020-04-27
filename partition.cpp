@@ -24,8 +24,8 @@ struct Numpartset {
 		char buff[MAXLINE];
 
 		infile.getline(buff, MAXLINE);
-		for (int _ = 0; _ < 100; _++) {
-		// while(!infile.eof()) {
+		// for (int _ = 0; _ < 100; _++) {
+		while(!infile.eof()) {
 			nums.push_back(stol(buff));
 			infile.getline(buff, MAXLINE);
 		}
@@ -341,6 +341,7 @@ int main(int argc, char* argv[]) {
 			cout << test.HC(25000) << endl;
 			break;
 		case 3:
+			cout << test.SA(25000) << endl;
 			break;
 		case 11:
 			cout << test.P_RR(25000) << endl;
@@ -349,6 +350,7 @@ int main(int argc, char* argv[]) {
 			cout << test.P_HC(25000) << endl;
 			break;
 		case 13:
+			cout << test.P_SA(25000) << endl;
 			break;
 	}
 }
