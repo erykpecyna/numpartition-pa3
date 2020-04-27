@@ -255,7 +255,7 @@ struct Numpartset {
 		for(int _ = 0; _ < 100; _++) {
 			prepart.push_back(bern(generator) ? 1 : -1);
 		}
-		best = check();
+		best = check_SA();
 
 		for(int _ = 0; _ < max_iters; _ ++) {
 			// Random neighbor S'
@@ -272,7 +272,7 @@ struct Numpartset {
 				prepart[j] *= -1;
 			}
 
-			int curr = check();
+			int curr = check_SA();
 
 			if(curr > best && bern(generator)) {
 				prepart[i] = old_i;
@@ -289,13 +289,16 @@ struct Numpartset {
     	mt19937 generator(seed);
     	bernoulli_distribution bern(0.5);
 		uniform_int_distribution<int> randind(1,100);
+		int sres;
+		int spres;
 		// Random solution S
 		for(int _ = 0; _ < 100; _++) {
 			prepart.push_back(bern(generator) ? 1 : -1);
 		}
-		best = check();
+		best = combine_SA();
+		sres = best;
 
-		for(int _ = 0; _ < max_iters; _ ++) {
+		for(int i = 0; i < max_iters; i ++) {
 			// Random neighbor S'
 			int i = randind(generator);
 			int j = randind(generator);
@@ -310,13 +313,15 @@ struct Numpartset {
 				prepart[j] *= -1;
 			}
 
-			int curr = check();
+			spres = combine_SA();
+			bernoulli_distribution bern(exp(-(spres - sres)/T(i)));
 
-			if(curr > best && bern(generator)) {
+			if(spres > best && bern(generator)) {
 				prepart[i] = old_i;
 				prepart[j] = old_j;
 			} else {
-				best = curr;
+				best = spres;
+				sres = spres;
 			}
 		}
 		return best;
