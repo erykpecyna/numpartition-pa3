@@ -75,9 +75,9 @@ struct Numpartset {
 	int KK() {
 		while(nums.size() > 1) {
 			int n = nums.size();
-			int a = nums[n-1];
-			int b = nums[n-2];
-			int c = abs(a-b);
+			long a = nums[n-1];
+			long b = nums[n-2];
+			long c = abs(a-b);
 
 			nums.pop_back();
 			nums[n-2] = c;
@@ -92,9 +92,9 @@ struct Numpartset {
 	int KK_2() {
 		while(combined.size() > 1) {
 			int n = combined.size();
-			int a = combined[n-1];
-			int b = combined[n-2];
-			int c = abs(a-b);
+			long a = combined[n-1];
+			long b = combined[n-2];
+			long c = abs(a-b);
 
 			combined.pop_back();
 			combined[n-2] = c;
@@ -355,6 +355,7 @@ int main(int argc, char* argv[]) {
 			cout << test.P_HC(100) << endl;
 			break;
 		case 13:
+			cout << exp(-(542 - 400)/T(iter)) << 
 			cout << test.P_SA(100) << endl;
 			break;
 	}
