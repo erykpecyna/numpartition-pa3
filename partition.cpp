@@ -11,6 +11,7 @@ using namespace std;
 
 struct Numpartset {
 	vector<int> nums;
+	// vector<int> prepart;
 	
 	Numpartset(char* filename) {
 		ifstream infile(filename, ios::in);
@@ -56,6 +57,18 @@ int main(int argc, char* argv[]) {
 	switch(algorithm) {
 		case 0:
 			cout << test.KK() << endl;
+			break;
+		case 1:
+			break;
+		case 2:
+			break;
+		case 3:
+			break;
+		case 11:
+			break;
+		case 12:
+			break;
+		case 13:
 			break;
 	}
 }
