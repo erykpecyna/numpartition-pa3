@@ -17,7 +17,7 @@ struct Numpartset {
 	vector<long> prepart;
 	vector<long> combined;
 	int length;
-	int best;
+	long best;
 
 	Numpartset(char* filename) {
 		ifstream infile(filename, ios::in);
@@ -34,7 +34,7 @@ struct Numpartset {
 
 		length = nums.size();
 
-		best = INT32_MAX;
+		best = __LONG_MAX__;
 	}
 
 	bool combine() {
