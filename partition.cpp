@@ -298,7 +298,7 @@ struct Numpartset {
 		best = combine_SA();
 		sres = best;
 
-		for(int i = 0; i < max_iters; i ++) {
+		for(int iter = 0; iter < max_iters; iter ++) {
 			// Random neighbor S'
 			int i = randind(generator);
 			int j = randind(generator);
@@ -314,7 +314,7 @@ struct Numpartset {
 			}
 
 			spres = combine_SA();
-			bernoulli_distribution bern(exp(-(spres - sres)/T(i)));
+			bernoulli_distribution bern(exp(-(spres - sres)/T(iter)));
 
 			if(spres > best && bern(generator)) {
 				prepart[i] = old_i;
