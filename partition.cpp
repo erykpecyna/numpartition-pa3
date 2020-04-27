@@ -24,8 +24,8 @@ struct Numpartset {
 		char buff[MAXLINE];
 
 		infile.getline(buff, MAXLINE);
-		// for (int _ = 0; _ < 100; _++) {
-		while(!infile.eof()) {
+		for (int _ = 0; _ < 100; _++) {
+		// while(!infile.eof()) {
 			printf("%s\n", buff);
 			nums.push_back(stoi(buff));
 			infile.getline(buff, MAXLINE);
