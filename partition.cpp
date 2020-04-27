@@ -254,7 +254,7 @@ struct Numpartset {
 };
 
 int main(int argc, char* argv[]) {
-	int flag = stoi(argv[1]);
+	// int flag = stoi(argv[1]);
 	int algorithm = stoi(argv[2]);
 	char* inputfile = argv[3];
 
