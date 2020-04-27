@@ -13,9 +13,9 @@
 using namespace std;
 
 struct Numpartset {
-	vector<int> nums;
-	vector<int> prepart;
-	vector<int> combined;
+	vector<long> nums;
+	vector<long> prepart;
+	vector<long> combined;
 	int length;
 	int best;
 
@@ -27,7 +27,7 @@ struct Numpartset {
 		for (int _ = 0; _ < 100; _++) {
 		// while(!infile.eof()) {
 			printf("%s\n", buff);
-			nums.push_back(stoi(buff));
+			nums.push_back(stol(buff));
 			infile.getline(buff, MAXLINE);
 		}
 
@@ -55,6 +55,21 @@ struct Numpartset {
 			return true;
 		}
 		return false;
+	}
+
+	bool combine_SA() {
+		combined.erase(combined.begin(), combined.end());
+
+		for(int _ = 0; _ < length; _++) {
+			combined.push_back(0);
+		}
+
+		for(int i = 0; i < length; i++) 
+			combined[prepart[i]] += nums[i];
+
+		int res = KK_2();
+
+		return abs(res);
 	}
 
 	// Using list in nums, usually original list
@@ -104,6 +119,17 @@ struct Numpartset {
 			return true;
 		}
 		return false;
+	}
+	
+	// For simulated annealing
+	bool check_SA() {
+		int res = 0;
+		
+		for(int i = 0; i < length; i++) {
+			res += prepart[i] * nums[i];
+		}
+	
+		return abs(res);
 	}
 
 	// Repeated Random
@@ -224,11 +250,11 @@ struct Numpartset {
 	int SA(int max_iters) {
 		unsigned seed = chrono::system_clock::now().time_since_epoch().count();
     	mt19937 generator(seed);
-    	uniform_int_distribution<int> unif(0,1);
+    	bernoulli_distribution bern(0.5);
 		uniform_int_distribution<int> randind(1,100);
 		// Random solution S
 		for(int _ = 0; _ < 100; _++) {
-			prepart.push_back(unif(generator));
+			prepart.push_back(bern(generator) ? 1 : -1);
 		}
 		best = check();
 
@@ -236,20 +262,65 @@ struct Numpartset {
 			// Random neighbor S'
 			int i = randind(generator);
 			int j = randind(generator);
-			int old_i = prepart[i];
-
-			while(prepart[i] == j) {
+			while (i == j)
 				j = randind(generator);
+
+			int old_i = prepart[i];
+			int old_j = prepart[j];
+
+			prepart[i] *= -1;
+			if (bern(generator)) {
+				prepart[j] *= -1;
 			}
-			
-			prepart[i] = j;
-			int res_S = check();
-			if(res_S >= best) {
+
+			int curr = check();
+
+			if(curr > best && bern(generator)) {
 				prepart[i] = old_i;
+				prepart[j] = old_j;
 			} else {
-				best = res_S;
+				best = curr;
 			}
 		}
+		return best;
+	}
+
+	int P_SA(int max_iters) {
+		unsigned seed = chrono::system_clock::now().time_since_epoch().count();
+    	mt19937 generator(seed);
+    	bernoulli_distribution bern(0.5);
+		uniform_int_distribution<int> randind(1,100);
+		// Random solution S
+		for(int _ = 0; _ < 100; _++) {
+			prepart.push_back(bern(generator) ? 1 : -1);
+		}
+		best = check();
+
+		for(int _ = 0; _ < max_iters; _ ++) {
+			// Random neighbor S'
+			int i = randind(generator);
+			int j = randind(generator);
+			while (i == j)
+				j = randind(generator);
+
+			int old_i = prepart[i];
+			int old_j = prepart[j];
+
+			prepart[i] *= -1;
+			if (bern(generator)) {
+				prepart[j] *= -1;
+			}
+
+			int curr = check();
+
+			if(curr > best && bern(generator)) {
+				prepart[i] = old_i;
+				prepart[j] = old_j;
+			} else {
+				best = curr;
+			}
+		}
+		return best;
 	}
 };
 
