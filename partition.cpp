@@ -339,9 +339,24 @@ struct Numpartset {
 };
 
 int main(int argc, char* argv[]) {
-	// int flag = stoi(argv[1]);
+	int flag = stoi(argv[1]);
 	int algorithm = stoi(argv[2]);
 	char* inputfile = argv[3];
+
+	// Task 5
+	if (flag == 25) {
+		long upper = pow(10, 12);
+		unsigned seed = chrono::system_clock::now().time_since_epoch().count();
+    	mt19937 generator(seed);
+		uniform_int_distribution<long> instance(1, upper);
+
+
+		return;
+	}
+
+
+
+
 
 	Numpartset test(inputfile);
 
@@ -366,7 +381,7 @@ int main(int argc, char* argv[]) {
 			break;
 		case 13:
 			// cout << exp(-(542 - 400)/test.T(15)) << endl;
-			cout << test.P_SA(100) << endl;
+			cout << test.P_SA(25000) << endl;
 			break;
 	}
 }
