@@ -37,6 +37,12 @@ struct Numpartset {
 		best = __LONG_MAX__;
 	}
 
+	Numpartset(vector<long> randnums) {
+		nums = randnums;
+		length = nums.size();
+		best = __LONG_MAX__;
+	}
+
 	bool combine() {
 		combined.erase(combined.begin(), combined.end());
 
@@ -383,4 +389,6 @@ int main(int argc, char* argv[]) {
 			cout << test.P_SA(25000) << endl;
 			break;
 	}
+
+	return 0;
 }
