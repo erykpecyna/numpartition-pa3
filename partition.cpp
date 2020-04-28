@@ -38,7 +38,8 @@ struct Numpartset {
 	}
 
 	Numpartset(vector<long> randnums) {
-		nums = randnums;
+		for (auto& num: randnums)
+			nums.push_back(num);
 		length = nums.size();
 		best = __LONG_MAX__;
 	}
@@ -354,15 +355,73 @@ int main(int argc, char* argv[]) {
 		long upper = pow(10, 12);
 		unsigned seed = chrono::system_clock::now().time_since_epoch().count();
     	mt19937 generator(seed);
-		uniform_int_distribution<long> instance(1, upper);
+		uniform_int_distribution<long> randnum(1, upper);
+
+		std::chrono::microseconds kktime;
+		std::chrono::microseconds rrtime;
+		std::chrono::microseconds prrtime;
+		std::chrono::microseconds hctime;
+		std::chrono::microseconds phctime;
+		std::chrono::microseconds satime;
+		std::chrono::microseconds psatime;
+
+		ofstream results;
+		results.open("results.txt", ios::out | ios::trunc);
 
 		for (int instance = 0; instance < 100; instance++) {
 			vector<long> ins;
 
-			for(int i = 0; i < 100; i++) {
-				
-			}
+			for(int i = 0; i < 100; i++)
+				ins.push_back(randnum(generator));
+
+			Numpartset kkn(ins);
+			auto start = chrono::high_resolution_clock::now();
+			long kk = kkn.KK();
+			auto stop = chrono::high_resolution_clock::now();
+			kktime += chrono::duration_cast<chrono::microseconds>(stop - start);
+
+			Numpartset rrn(ins);
+			start = chrono::high_resolution_clock::now();
+			long rr = rrn.RR(25000);
+			stop = chrono::high_resolution_clock::now();
+			rrtime += chrono::duration_cast<chrono::microseconds>(stop - start);
+
+			Numpartset prrn(ins);
+			start = chrono::high_resolution_clock::now();
+			long prr = prrn.P_RR(25000);
+			stop = chrono::high_resolution_clock::now();
+			prrtime += chrono::duration_cast<chrono::microseconds>(stop - start);
+
+			Numpartset hcn(ins);
+			start = chrono::high_resolution_clock::now();
+			long hc = hcn.HC(25000);
+			stop = chrono::high_resolution_clock::now();
+			hctime += chrono::duration_cast<chrono::microseconds>(stop - start);
+
+			Numpartset phcn(ins);
+			start = chrono::high_resolution_clock::now();
+			long phc = phcn.P_HC(25000);
+			stop = chrono::high_resolution_clock::now();
+			phctime += chrono::duration_cast<chrono::microseconds>(stop - start);
+
+			Numpartset san(ins);
+			start = chrono::high_resolution_clock::now();
+			long sa = san.SA(25000);
+			stop = chrono::high_resolution_clock::now();
+			satime += chrono::duration_cast<chrono::microseconds>(stop - start);
+
+			Numpartset psan(ins);
+			start = chrono::high_resolution_clock::now();
+			long psa = psan.P_SA(25000);
+			stop = chrono::high_resolution_clock::now();
+			psatime += chrono::duration_cast<chrono::microseconds>(stop - start);
+
+			results << kk << "," << rr << "," << prr << "," << hc << "," << phc << "," << sa << "," << psa << endl;
 		}
+
+		results << endl << kktime.count() / 100 << "," << rrtime.count() / 100 << "," << prrtime.count() / 100 << "," << hctime.count() / 100 << "," << phctime.count() / 100 << "," << satime.count() / 100 << "," << psatime.count() / 100 << endl;
+
+		results.close();
 
 		return 0;
 	}
