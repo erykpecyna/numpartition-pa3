@@ -56,7 +56,7 @@ struct Numpartset {
 		return false;
 	}
 
-	bool combine_SA() {
+	long combine_SA() {
 		combined.erase(combined.begin(), combined.end());
 
 		for(int _ = 0; _ < length; _++) {
@@ -121,7 +121,7 @@ struct Numpartset {
 	}
 	
 	// For simulated annealing
-	bool check_SA() {
+	long check_SA() {
 		long res = 0;
 		
 		for(int i = 0; i < length; i++) {
@@ -279,6 +279,10 @@ struct Numpartset {
 
 			spres = check_SA();
 			double p = exp(-(spres - sres)/T(iter));
+
+			cout << endl << sres << endl;
+			cout << spres << endl;
+			cout << p << endl << endl;
 
 			if(spres > best && prob(generator) < p) {
 				prepart[i] = old_i;
