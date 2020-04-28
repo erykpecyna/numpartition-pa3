@@ -351,7 +351,7 @@ int main(int argc, char* argv[]) {
 		uniform_int_distribution<long> instance(1, upper);
 
 
-		return;
+		return 0;
 	}
 
 
@@ -380,7 +380,6 @@ int main(int argc, char* argv[]) {
 			cout << test.P_HC(25000) << endl;
 			break;
 		case 13:
-			// cout << exp(-(542 - 400)/test.T(15)) << endl;
 			cout << test.P_SA(25000) << endl;
 			break;
 	}
