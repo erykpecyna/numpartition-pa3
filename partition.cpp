@@ -280,10 +280,6 @@ struct Numpartset {
 			spres = check_SA();
 			double p = exp(-(spres - sres)/T(iter));
 
-			cout << endl << sres << endl;
-			cout << spres << endl;
-			cout << p << endl << endl;
-
 			if(spres > best && prob(generator) < p) {
 				prepart[i] = old_i;
 				prepart[j] = old_j;
