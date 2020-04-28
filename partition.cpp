@@ -47,7 +47,7 @@ struct Numpartset {
 		for(int i = 0; i < length; i++) 
 			combined[prepart[i]] += nums[i];
 
-		int res = KK_2();
+		long res = KK_2();
 
 		if (best > abs(res)) {
 			best = abs(res);
@@ -66,7 +66,7 @@ struct Numpartset {
 		for(int i = 0; i < length; i++) 
 			combined[prepart[i]] += nums[i];
 
-		int res = KK_2();
+		long res = KK_2();
 
 		return abs(res);
 	}
@@ -107,7 +107,7 @@ struct Numpartset {
 
 	// Check residue given a sequence of +1/-1
 	bool check() {
-		int res = 0;
+		long res = 0;
 		
 		for(int i = 0; i < length; i++) {
 			res += prepart[i] * nums[i];
@@ -122,7 +122,7 @@ struct Numpartset {
 	
 	// For simulated annealing
 	bool check_SA() {
-		int res = 0;
+		long res = 0;
 		
 		for(int i = 0; i < length; i++) {
 			res += prepart[i] * nums[i];
