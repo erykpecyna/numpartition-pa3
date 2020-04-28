@@ -72,7 +72,7 @@ struct Numpartset {
 	}
 
 	// Using list in nums, usually original list
-	int KK() {
+	long KK() {
 		while(nums.size() > 1) {
 			int n = nums.size();
 			long a = nums[n-1];
@@ -89,7 +89,7 @@ struct Numpartset {
 	}
 
 	// Using prepartition combined list
-	int KK_2() {
+	long KK_2() {
 		while(combined.size() > 1) {
 			int n = combined.size();
 			long a = combined[n-1];
@@ -132,7 +132,7 @@ struct Numpartset {
 	}
 
 	// Repeated Random
-	int RR(int max_iters) {
+	long RR(int max_iters) {
 		unsigned seed = chrono::system_clock::now().time_since_epoch().count();
     	mt19937 generator(seed);
     	bernoulli_distribution bern(0.5);
@@ -154,7 +154,7 @@ struct Numpartset {
 	}
 
 	// Prepartitioned Repeated Random
-	int P_RR(int max_iters) {
+	long P_RR(int max_iters) {
 		unsigned seed = chrono::system_clock::now().time_since_epoch().count();
     	mt19937 generator(seed);
     	uniform_int_distribution<int> unif(1,100);
@@ -176,7 +176,7 @@ struct Numpartset {
 	}
 
 	// Hill Climbing
-	int HC(int max_iters) {
+	long HC(int max_iters) {
 		unsigned seed = chrono::system_clock::now().time_since_epoch().count();
     	mt19937 generator(seed);
     	bernoulli_distribution bern(0.5);
@@ -212,7 +212,7 @@ struct Numpartset {
 	}
 
 	// Prepartitioned Hill Climbing
-	int P_HC(int max_iters) {
+	long P_HC(int max_iters) {
 		unsigned seed = chrono::system_clock::now().time_since_epoch().count();
     	mt19937 generator(seed);
 		uniform_int_distribution<int> randind(1,100);
@@ -246,18 +246,23 @@ struct Numpartset {
 		return(pow(10,10) * pow(0.8, floor(iter/300)));
 	}
 
-	int SA(int max_iters) {
+	long SA(int max_iters) {
 		unsigned seed = chrono::system_clock::now().time_since_epoch().count();
     	mt19937 generator(seed);
     	bernoulli_distribution bern(0.5);
+		uniform_real_distribution<double> prob(0,1);
 		uniform_int_distribution<int> randind(1,100);
+
+		long sres;
+		long spres;
 		// Random solution S
 		for(int _ = 0; _ < 100; _++) {
 			prepart.push_back(bern(generator) ? 1 : -1);
 		}
 		best = check_SA();
+		sres = best;
 
-		for(int _ = 0; _ < max_iters; _ ++) {
+		for(int iter = 0; iter < max_iters; iter ++) {
 			// Random neighbor S'
 			int i = randind(generator);
 			int j = randind(generator);
@@ -272,25 +277,28 @@ struct Numpartset {
 				prepart[j] *= -1;
 			}
 
-			int curr = check_SA();
+			spres = check_SA();
+			double p = exp(-(spres - sres)/T(iter));
 
-			if(curr > best && bern(generator)) {
+			if(spres > best && prob(generator) < p) {
 				prepart[i] = old_i;
 				prepart[j] = old_j;
 			} else {
-				best = curr;
+				best = spres;
+				sres = spres;
 			}
 		}
 		return best;
 	}
 
-	int P_SA(int max_iters) {
+	long P_SA(int max_iters) {
 		unsigned seed = chrono::system_clock::now().time_since_epoch().count();
     	mt19937 generator(seed);
     	bernoulli_distribution bern(0.5);
+		uniform_real_distribution<double> prob(0,1);
 		uniform_int_distribution<int> randind(1,100);
-		int sres;
-		int spres;
+		long sres;
+		long spres;
 		// Random solution S
 		for(int _ = 0; _ < 100; _++) {
 			prepart.push_back(bern(generator) ? 1 : -1);
@@ -314,9 +322,11 @@ struct Numpartset {
 			}
 
 			spres = combine_SA();
-			bernoulli_distribution bern(exp(-(spres - sres)/T(iter)));
-
-			if(spres > best && bern(generator)) {
+			double p = exp(-(spres - sres)/T(iter));
+			cout << endl << sres << endl;
+			cout << spres << endl;
+			cout << p << endl << endl;
+			if(spres > best && prob(generator) < p) {
 				prepart[i] = old_i;
 				prepart[j] = old_j;
 			} else {
@@ -355,7 +365,7 @@ int main(int argc, char* argv[]) {
 			cout << test.P_HC(25000) << endl;
 			break;
 		case 13:
-			cout << exp(-(542 - 400)/test.T(15)) << endl;
+			// cout << exp(-(542 - 400)/test.T(15)) << endl;
 			cout << test.P_SA(100) << endl;
 			break;
 	}
