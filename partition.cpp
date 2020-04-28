@@ -280,11 +280,14 @@ struct Numpartset {
 			spres = check_SA();
 			double p = exp(-(spres - sres)/T(iter));
 
-			if(spres > best && prob(generator) < p) {
+			if(spres > sres && prob(generator) > p) {
 				prepart[i] = old_i;
 				prepart[j] = old_j;
+			} else if (spres > sres) {
+				sres = spres;
 			} else {
-				best = spres;
+				if (spres < best) 
+					best = spres;
 				sres = spres;
 			}
 		}
