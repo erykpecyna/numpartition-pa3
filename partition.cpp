@@ -356,6 +356,13 @@ int main(int argc, char* argv[]) {
     	mt19937 generator(seed);
 		uniform_int_distribution<long> instance(1, upper);
 
+		for (int instance = 0; instance < 100; instance++) {
+			vector<long> ins;
+
+			for(int i = 0; i < 100; i++) {
+				
+			}
+		}
 
 		return 0;
 	}
