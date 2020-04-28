@@ -226,7 +226,7 @@ struct Numpartset {
 			// Random neighbor S'
 			int i = randind(generator);
 			int j = randind(generator);
-			int old_i = prepart[i];
+			long old_i = prepart[i];
 
 			while(prepart[i] == j) {
 				j = randind(generator);
@@ -300,11 +300,13 @@ struct Numpartset {
     	bernoulli_distribution bern(0.5);
 		uniform_real_distribution<double> prob(0,1);
 		uniform_int_distribution<int> randind(1,100);
+
 		long sres;
 		long spres;
+		
 		// Random solution S
 		for(int _ = 0; _ < 100; _++) {
-			prepart.push_back(bern(generator) ? 1 : -1);
+			prepart.push_back(randind(generator));
 		}
 		best = combine_SA();
 		sres = best;
@@ -313,27 +315,22 @@ struct Numpartset {
 			// Random neighbor S'
 			int i = randind(generator);
 			int j = randind(generator);
-			while (i == j)
+			while(prepart[i] == j)
 				j = randind(generator);
+			long old_i = prepart[i];
 
-			int old_i = prepart[i];
-			int old_j = prepart[j];
-
-			prepart[i] *= -1;
-			if (bern(generator)) {
-				prepart[j] *= -1;
-			}
+			prepart[i] = j;
 
 			spres = combine_SA();
 			double p = exp(-(spres - sres)/T(iter));
-			cout << endl << sres << endl;
-			cout << spres << endl;
-			cout << p << endl << endl;
-			if(spres > best && prob(generator) < p) {
+
+			if(spres > sres && prob(generator) > p) {
 				prepart[i] = old_i;
-				prepart[j] = old_j;
+			} else if (spres > sres) {
+				sres = spres;
 			} else {
-				best = spres;
+				if (spres < best) 
+					best = spres;
 				sres = spres;
 			}
 		}
